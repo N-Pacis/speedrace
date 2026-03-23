@@ -11,7 +11,7 @@ const COUNTRIES = [
   { id: 'kenya',        name: 'Kenya',          speed: 22,  rank: 108, penetration: '85%', users: '48M' },
 ]
 
-const FILE_MB = 500
+const FILE_MB = 100
 
 function downloadTime(speed) {
   return ((FILE_MB * 8) / speed).toFixed(1)
@@ -36,10 +36,8 @@ export default function App() {
     if (!started) return
     const timeA = parseFloat(downloadTime(countryA.speed))
     const timeB = parseFloat(downloadTime(countryB.speed))
-    const fastest = Math.min(timeA, timeB)
-    const base = 4000
-    anime({ targets: barARef.current, width: '100%', duration: base * (timeA / fastest), easing: 'linear' })
-    anime({ targets: barBRef.current, width: '100%', duration: base * (timeB / fastest), easing: 'linear' })
+    anime({ targets: barARef.current, width: '100%', duration: timeA * 1000, easing: 'linear' })
+    anime({ targets: barBRef.current, width: '100%', duration: timeB * 1000, easing: 'linear' })
   }, [started])
 
   function handleSelectA(e) {
@@ -87,7 +85,7 @@ export default function App() {
           <p>Global rank: #{countryA.rank}</p>
           <p>Internet penetration: {countryA.penetration}</p>
           <p>Internet users: {countryA.users}</p>
-          <p>500 MB download: ~{timeA}s</p>
+          <p>{FILE_MB} MB download: ~{timeA}s</p>
         </div>
         <div className="country">
           <h2>{countryB.name}</h2>
@@ -95,12 +93,12 @@ export default function App() {
           <p>Global rank: #{countryB.rank}</p>
           <p>Internet penetration: {countryB.penetration}</p>
           <p>Internet users: {countryB.users}</p>
-          <p>500 MB download: ~{timeB}s</p>
+          <p>{FILE_MB} MB download: ~{timeB}s</p>
         </div>
       </div>
 
       {!started && (
-        <button onClick={startRace}>Simulate 500 MB download</button>
+        <button onClick={startRace}>Simulate {FILE_MB} MB download</button>
       )}
 
       {started && (

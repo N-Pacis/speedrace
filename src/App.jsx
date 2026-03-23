@@ -3,12 +3,12 @@ import anime from 'animejs'
 import './App.css'
 
 const COUNTRIES = [
-  { id: 'usa',          name: 'USA 🇺🇸',          speed: 289, rank: 11,  penetration: '94%', users: '312M', color: 'steelblue' },
-  { id: 'brazil',       name: 'Brazil 🇧🇷',        speed: 222, rank: 32,  penetration: '84%', users: '181M', color: 'green' },
-  { id: 'egypt',        name: 'Egypt 🇪🇬',          speed: 28,  rank: 90,  penetration: '72%', users: '82M',  color: '#c8102e' },
-  { id: 'southafrica',  name: 'South Africa 🇿🇦',   speed: 52,  rank: 68,  penetration: '72%', users: '42M',  color: '#007A4D' },
-  { id: 'tanzania',     name: 'Tanzania 🇹🇿',       speed: 15,  rank: 126, penetration: '49%', users: '32M',  color: '#1EB53A' },
-  { id: 'kenya',        name: 'Kenya 🇰🇪',          speed: 22,  rank: 108, penetration: '85%', users: '48M',  color: '#006600' },
+  { id: 'usa',          name: 'USA',          speed: 289, rank: 11,  penetration: '94%', users: '312M' },
+  { id: 'brazil',       name: 'Brazil',        speed: 222, rank: 32,  penetration: '84%', users: '181M'},
+  { id: 'egypt',        name: 'Egypt',          speed: 28,  rank: 90,  penetration: '72%', users: '82M' },
+  { id: 'southafrica',  name: 'South Africa',   speed: 52,  rank: 68,  penetration: '72%', users: '42M' },
+  { id: 'tanzania',     name: 'Tanzania',       speed: 15,  rank: 126, penetration: '49%', users: '32M'},
+  { id: 'kenya',        name: 'Kenya',          speed: 22,  rank: 108, penetration: '85%', users: '48M' },
 ]
 
 const FILE_MB = 500
@@ -81,7 +81,7 @@ export default function App() {
       </div>
 
       <div className="countries">
-        <div className="country" style={{ borderColor: countryA.color }}>
+        <div className="country">
           <h2>{countryA.name}</h2>
           <p><strong>{countryA.speed} Mbps</strong></p>
           <p>Global rank: #{countryA.rank}</p>
@@ -89,7 +89,7 @@ export default function App() {
           <p>Internet users: {countryA.users}</p>
           <p>500 MB download: ~{timeA}s</p>
         </div>
-        <div className="country" style={{ borderColor: countryB.color }}>
+        <div className="country">
           <h2>{countryB.name}</h2>
           <p><strong>{countryB.speed} Mbps</strong></p>
           <p>Global rank: #{countryB.rank}</p>
@@ -108,13 +108,13 @@ export default function App() {
           <div className="lane">
             <label>{countryA.name} — {timeA}s</label>
             <div className="track">
-              <div ref={barARef} className="bar" style={{ background: countryA.color }} />
+              <div ref={barARef} className="bar" style={{ background: "green" }} />
             </div>
           </div>
           <div className="lane">
             <label>{countryB.name} — {timeB}s</label>
             <div className="track">
-              <div ref={barBRef} className="bar" style={{ background: countryB.color }} />
+              <div ref={barBRef} className="bar" style={{ background: "blue" }} />
             </div>
           </div>
           <button onClick={reset} style={{ marginTop: '16px' }}>Reset</button>

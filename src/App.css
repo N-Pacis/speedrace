@@ -1,0 +1,33 @@
+h1 { margin-bottom: 8px; }
+
+.countries {
+  display: flex;
+  gap: 40px;
+  margin: 32px 0;
+}
+
+.country {
+  flex: 1;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.country h2 { margin: 0 0 12px; }
+.country p { margin: 4px 0; font-size: 14px; }
+
+.lane { margin: 16px 0; }
+.lane label { display: block; margin-bottom: 6px; font-size: 14px; }
+
+.track {
+  background: #eee;
+  height: 24px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  width: 0%;
+  border-radius: 4px;
+}

@@ -1,5 +1,7 @@
 h1 { margin-bottom: 8px; }
 
+nav { display: flex; gap: 16px; }
+
 .selectors {
   display: flex;
   align-items: center;

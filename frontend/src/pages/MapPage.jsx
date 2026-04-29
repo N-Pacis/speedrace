@@ -6,9 +6,9 @@ export default function MapPage() {
       <div className="surface-card map-frame map-immersive">
         <section className="map-stage-copy">
           <div className="eyebrow">World Map</div>
-          <h1 className="map-stage-title">Global Internet Speed Map</h1>
-          <p className="page-copy">
-            Select up to five (5) countries to test how fast each can download a 100MB File. Data From ookla.com
+          <h1 className="map-stage-title">Global Internet Speeds</h1>
+          <p className="page-copy" style={{ fontSize: '0.82rem', lineHeight: 1.5, marginTop: '0.35rem' }}>
+            Hover any country to see its average download speed. Data from Ookla.
           </p>
         </section>
         <WorldMap />

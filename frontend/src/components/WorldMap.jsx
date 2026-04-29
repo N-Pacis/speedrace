@@ -35,7 +35,7 @@ const [dr, dg, db] = hexToRgb(COLORS.brandDark)
 
 function speedToColor(speed, maxSpeed) {
   if (speed == null || maxSpeed === 0) return COLORS.noData
-  const t = Math.max(0, Math.min(1, speed / maxSpeed))
+  const t = Math.sqrt(Math.max(0, Math.min(1, speed / maxSpeed)))
   return `rgb(${Math.round(lr + (dr - lr) * t)},${Math.round(lg + (dg - lg) * t)},${Math.round(lb + (db - lb) * t)})`
 }
 
@@ -177,7 +177,7 @@ export default function WorldMap() {
                     if (!country || geoArea(geo) < LABEL_AREA_THRESHOLD) return null
                     const [cx, cy] = geoCentroid(geo)
                     const speed    = speedMap[country.abbreviation] ?? null
-                    const dark     = speed != null && speed / maxSpeed > 0.55
+                    const dark     = speed != null && Math.sqrt(speed / maxSpeed) > 0.55
                     return (
                       <Marker key={`lbl-${geo.rsmKey}`} coordinates={[cx, cy]}>
                         <text
@@ -201,22 +201,27 @@ export default function WorldMap() {
         <div className="map-overlay-bottom">
           <div className="map-legend-group">
             <span className="eyebrow">Download speed</span>
-            <div className="flex items-center gap-2">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.3rem' }}>
               <div
-                className="h-3 w-40"
-                style={{ background: `linear-gradient(to right, ${speedToColor(0, maxSpeed)}, ${speedToColor(maxSpeed, maxSpeed)})` }}
+                style={{
+                  height: '0.6rem',
+                  width: '10rem',
+                  background: `linear-gradient(to right, ${[0, 0.25, 0.5, 0.75, 1].map(s => speedToColor(s * maxSpeed, maxSpeed)).join(', ')})`,
+                  borderRadius: '999px',
+                }}
               />
-              <span className="status-text muted">0 — {maxSpeed} Mbps</span>
+              <div className="status-text muted" style={{ display: 'flex', justifyContent: 'space-between', width: '10rem', fontSize: '0.7rem' }}>
+                <span>0</span>
+                <span>{Math.round(maxSpeed / 2)}</span>
+                <span>{maxSpeed} Mbps</span>
+              </div>
             </div>
             <div className="flex items-center gap-1.5">
-              <div className="h-3 w-3.5" style={{ background: COLORS.noData }} />
+              <div className="h-3 w-3.5" style={{ background: COLORS.noData, borderRadius: '2px' }} />
               <span className="status-text muted">No data</span>
             </div>
           </div>
 
-          <div className="map-hint-chip status-text muted">
-            Drag to pan. Scroll or pinch to zoom out.
-          </div>
         </div>
       </div>
 

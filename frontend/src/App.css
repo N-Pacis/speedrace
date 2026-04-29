@@ -331,24 +331,24 @@
 
 .map-stage-copy {
   position: absolute;
-  top: 1.35rem;
-  left: 1.35rem;
+  top: 1.1rem;
+  left: 1.1rem;
   z-index: 3;
-  width: min(28rem, calc(100% - 2.7rem));
-  padding: 1.15rem 1.2rem 1.25rem;
-  background: rgba(247, 249, 251, 0.84);
+  width: min(18rem, calc(100% - 2.2rem));
+  padding: 0.75rem 0.9rem 0.8rem;
+  background: rgba(247, 249, 251, 0.88);
   backdrop-filter: blur(14px);
   border: 1px solid rgba(67, 70, 85, 0.12);
-  box-shadow: 0 20px 45px rgba(67, 70, 85, 0.08);
+  box-shadow: 0 8px 24px rgba(67, 70, 85, 0.08);
 }
 
 .map-stage-title {
-  margin-top: 0.55rem;
+  margin-top: 0.3rem;
   color: var(--color-text);
-  font-size: clamp(2rem, 4vw, 3.3rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
   text-transform: uppercase;
 }
 

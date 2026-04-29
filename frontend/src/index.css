@@ -1,0 +1,55 @@
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-brand:         #1D4ED8;
+  --color-brand-dark:    #1D4ED8;
+  --color-brand-light:   rgba(29, 78, 216, 0.12);
+  --color-no-data:       rgba(67, 70, 85, 0.25);
+  --color-surface:       #F7F9FB;
+  --color-surface-muted: #F7F9FB;
+  --color-border:        rgba(67, 70, 85, 0.15);
+  --color-text:          #434655;
+  --color-text-muted:    #434655;
+  --color-text-soft:     rgba(67, 70, 85, 0.6);
+  --color-success:       #1D4ED8;
+  --color-error:         #434655;
+  --color-warning:       #434655;
+
+  --font-sans: "Space Grotesk", Arial, "Helvetica Neue", Helvetica, sans-serif;
+}
+
+:root {
+  background: #F7F9FB;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #F7F9FB;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-feature-settings: "ss01" 1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+select,
+input,
+textarea {
+  font: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}

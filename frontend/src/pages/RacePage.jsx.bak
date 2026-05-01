@@ -1,0 +1,196 @@
+import { useState, useEffect, useMemo, useRef } from 'react'
+import '../race.css'
+
+const DEFAULT_FILE_MB = 100
+const RACER_W = 72
+
+function formatSpeed(speed) {
+  return Number(speed || 0).toFixed(1)
+}
+
+function displayCountry(country) {
+  if (country.abbreviation === 'US') return 'USA'
+  return (country.country || country.abbreviation || '').toUpperCase()
+}
+
+function fmt(s) {
+  const m = Math.floor(s / 60)
+  const sec = (s % 60).toFixed(1)
+  return `${m}:${sec.padStart(4, '0')}`
+}
+
+function RacerIcon() {
+  return (
+    <svg className="racer-icon" viewBox="0 0 72 42" aria-hidden="true">
+      <path d="M18 30H56" />
+      <path d="M28 9H42L50 13V28H28V9Z" />
+      <path d="M28 9L20 12V26L28 28" />
+      <path d="M35 13V24" />
+      <path d="M45 16V25" />
+      <circle cx="25" cy="18" r="2.2" />
+      <circle cx="25" cy="25" r="2.2" />
+    </svg>
+  )
+}
+
+export default function RacePage({ countries, fileSizeMB = DEFAULT_FILE_MB, onEdit, onBack }) {
+  const racers = useMemo(() => (countries || []).slice(0, 5), [countries])
+  const [raceKey, setRaceKey] = useState(0)
+  const [phase, setPhase] = useState('countdown')
+  const [countdownN, setCountdownN] = useState(3)
+  const [positions, setPositions] = useState([])
+  const [elapsed, setElapsed] = useState(0)
+  const [finishOrder, setFinishOrder] = useState([])
+
+  const rafRef = useRef(null)
+  const phaseRef = useRef('countdown')
+  const finishRef = useRef([])
+  const startTimeRef = useRef(null)
+
+  const raceTimes = useMemo(
+    () => racers.map(c => (fileSizeMB * 8) / Math.max(c.downloadMbps || 1, 0.01)),
+    [racers, fileSizeMB]
+  )
+
+  useEffect(() => {
+    if (racers.length === 0) return undefined
+
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+
+    let cdInterval = null
+    let goTimer = null
+    let startTimer = null
+
+    startTimer = setTimeout(() => {
+      phaseRef.current = 'countdown'
+      finishRef.current = []
+      startTimeRef.current = null
+
+      setPhase('countdown')
+      setCountdownN(3)
+      setPositions(racers.map(() => 0))
+      setFinishOrder([])
+      setElapsed(0)
+
+      let count = 3
+
+      cdInterval = setInterval(() => {
+        count -= 1
+        if (count > 0) {
+          setCountdownN(count)
+          return
+        }
+
+        clearInterval(cdInterval)
+        setCountdownN('GO')
+        goTimer = setTimeout(() => {
+          phaseRef.current = 'racing'
+          startTimeRef.current = performance.now()
+          setPhase('racing')
+          rafRef.current = requestAnimationFrame(tick)
+        }, 450)
+      }, 700)
+    }, 0)
+
+    function tick() {
+      if (phaseRef.current === 'finished') return
+
+      const elapsedSec = (performance.now() - startTimeRef.current) / 1000
+      setElapsed(elapsedSec)
+
+      const newPos = raceTimes.map(t => Math.min(1, elapsedSec / t))
+      setPositions(newPos)
+
+      newPos.forEach((p, i) => {
+        if (p >= 1 && !finishRef.current.includes(i)) {
+          finishRef.current = [...finishRef.current, i]
+          setFinishOrder([...finishRef.current])
+        }
+      })
+
+      if (finishRef.current.length === racers.length) {
+        phaseRef.current = 'finished'
+        setPhase('finished')
+        return
+      }
+
+      rafRef.current = requestAnimationFrame(tick)
+    }
+
+    return () => {
+      clearTimeout(startTimer)
+      clearInterval(cdInterval)
+      clearTimeout(goTimer)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [raceKey, racers, raceTimes])
+
+  function restartRace() {
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    setRaceKey(k => k + 1)
+  }
+
+  if (racers.length === 0) return null
+
+  const isDone = phase === 'finished'
+  const winner = finishOrder.length > 0 ? racers[finishOrder[0]] : null
+
+  return (
+    <div className="race-page race-sim-page">
+      <section className="race-sim-hero">
+        <h1 className="race-title">Internet Speed Visualizer</h1>
+        <div className="race-sim-status" aria-live="polite">
+          {phase === 'countdown'
+            ? `Starting in ${countdownN}`
+            : isDone && winner
+              ? `${displayCountry(winner)} wins in ${raceTimes[finishOrder[0]].toFixed(2)}s`
+              : `${fmt(elapsed)} elapsed`}
+        </div>
+      </section>
+
+      <section className="race-track-container" aria-label="Internet speed race lanes">
+        {racers.map((country, i) => {
+          const pos = positions[i] ?? 0
+          const finPos = finishOrder.indexOf(i)
+          const finished = finPos >= 0
+
+          return (
+            <article key={country.abbreviation || country.country} className="race-lane">
+              <div className="lane-label">
+                <span className="lane-country-name">{displayCountry(country)}</span>
+                <span className="lane-unit">MBPS</span>
+                <span className="lane-speed-tag">{formatSpeed(country.downloadMbps)}</span>
+              </div>
+
+              <div className="lane-track-area">
+                <div
+                  className={`car-positioner${finished ? ' finished' : ''}`}
+                  style={{ '--car-pos': pos, '--racer-w': `${RACER_W}px` }}
+                  aria-label={`${displayCountry(country)} progress ${Math.round(pos * 100)} percent`}
+                >
+                  <RacerIcon />
+                </div>
+              </div>
+
+              <div className="track-finish-line" aria-hidden="true">
+                <span>Finish</span>
+              </div>
+
+              {finished && (
+                <div className="lane-rank" aria-label={`${displayCountry(country)} finished ${finPos + 1}`}>
+                  #{finPos + 1}
+                </div>
+              )}
+            </article>
+          )
+        })}
+      </section>
+
+      <div className="result-actions race-sim-actions">
+        <button className="btn-race-again" onClick={restartRace}>Race Again</button>
+        <button className="btn-change" onClick={onEdit}>Edit Racers</button>
+        <button className="btn-change" onClick={onBack}>Back To Map</button>
+      </div>
+    </div>
+  )
+}

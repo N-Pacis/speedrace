@@ -234,7 +234,7 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
           >
             Edit Racers
           </button>
-          <button className="subtle-button" onClick={() => onBack?.()}>
+          <button className="link-button" onClick={() => onBack?.()}>
             Back to map
           </button>
         </div>
@@ -349,10 +349,7 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
             >
               Race Again
             </button>
-            <button className="subtle-button" onClick={() => onEdit?.()}>
-              Change Countries
-            </button>
-            <button className="subtle-button" onClick={() => onBack?.()}>
+            <button className="link-button" onClick={() => onBack?.()}>
               Back to Map
             </button>
           </div>

@@ -3,12 +3,14 @@ import { useState, useEffect } from "react";
 const CF = "https://speed.cloudflare.com";
 const API = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
-async function measurePing() {
+async function measurePing(onProgress) {
   const times = [];
   for (let i = 0; i < 5; i++) {
     const start = performance.now();
     await fetch(`${CF}/__down?bytes=0`, { cache: "no-store" });
     times.push(performance.now() - start);
+    const sorted = [...times].sort((a, b) => a - b);
+    onProgress(Math.round(sorted.reduce((a, b) => a + b, 0) / sorted.length));
   }
   times.sort((a, b) => a - b);
   return Math.round(times.slice(0, 4).reduce((a, b) => a + b, 0) / 4);
@@ -66,7 +68,9 @@ export default function SpeedTest() {
   const [ping, setPing] = useState(null);
   const [download, setDownload] = useState(null);
   const [upload, setUpload] = useState(null);
-  const [liveSpeed, setLiveSpeed] = useState(null);
+  const [livePing, setLivePing] = useState(null);
+  const [liveDownload, setLiveDownload] = useState(null);
+  const [liveUpload, setLiveUpload] = useState(null);
 
   const [submitStatus, setSubmitStatus] = useState(null);
   const [submitMessage, setSubmitMessage] = useState(null);
@@ -90,7 +94,9 @@ export default function SpeedTest() {
     setPing(null);
     setDownload(null);
     setUpload(null);
-    setLiveSpeed(null);
+    setLivePing(null);
+    setLiveDownload(null);
+    setLiveUpload(null);
     setSubmitStatus(null);
     setSubmitMessage(null);
 
@@ -100,13 +106,13 @@ export default function SpeedTest() {
     for (let i = 1; i <= 3; i++) {
       setRun(i);
       setPhase("ping");
-      pings.push(await measurePing());
+      pings.push(await measurePing(setLivePing));
       setPhase("download");
-      setLiveSpeed(0);
-      downloads.push(await measureDownload(setLiveSpeed));
+      setLiveDownload(0);
+      downloads.push(await measureDownload(setLiveDownload));
       setPhase("upload");
-      setLiveSpeed(0);
-      uploads.push(await measureUpload(setLiveSpeed));
+      setLiveUpload(0);
+      uploads.push(await measureUpload(setLiveUpload));
     }
 
     const avg = (arr) => arr.reduce((a, b) => a + b, 0) / arr.length;
@@ -117,7 +123,9 @@ export default function SpeedTest() {
     setPing(finalPing);
     setDownload(finalDownload);
     setUpload(finalUpload);
-    setLiveSpeed(null);
+    setLivePing(null);
+    setLiveDownload(null);
+    setLiveUpload(null);
     setRun(0);
     setPhase("done");
 
@@ -148,11 +156,13 @@ export default function SpeedTest() {
 
   const running = phase !== "idle" && phase !== "done";
   const displaySpeed =
-    running && liveSpeed !== null
-      ? liveSpeed
-      : download !== null
-        ? download
-        : 0;
+    phase === "download" && liveDownload !== null
+      ? liveDownload
+      : phase === "upload" && liveUpload !== null
+        ? liveUpload
+        : download !== null
+          ? download
+          : 0;
 
   return (
     <div className="page-stack">
@@ -204,7 +214,11 @@ export default function SpeedTest() {
             <div className="metric-item">
               <div className="eyebrow">Upload Speed</div>
               <div className="metric-value" style={{ marginTop: "0.6rem" }}>
-                {upload !== null ? upload.toFixed(0) : "0"}
+                {upload !== null
+                  ? upload.toFixed(0)
+                  : liveUpload !== null
+                    ? liveUpload.toFixed(0)
+                    : "0"}
                 <span className="unit">Mbps</span>
               </div>
             </div>
@@ -214,8 +228,8 @@ export default function SpeedTest() {
               <div className="metric-value" style={{ marginTop: "0.6rem" }}>
                 {download !== null
                   ? download.toFixed(0)
-                  : liveSpeed !== null
-                    ? liveSpeed.toFixed(0)
+                  : liveDownload !== null
+                    ? liveDownload.toFixed(0)
                     : "0"}
                 <span className="unit">Mbps</span>
               </div>
@@ -224,7 +238,11 @@ export default function SpeedTest() {
             <div className="metric-item">
               <div className="eyebrow">Ping</div>
               <div className="metric-value" style={{ marginTop: "0.6rem" }}>
-                {ping !== null ? ping : "0"}
+                {ping !== null
+                  ? ping
+                  : livePing !== null
+                    ? livePing
+                    : "0"}
                 <span className="unit">ms</span>
               </div>
             </div>

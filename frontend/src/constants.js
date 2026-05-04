@@ -175,17 +175,3 @@ export const COUNTRY_META = {
   '308': { a2: 'GD', a3: 'GRD', ooklaName: 'Grenada' },
 }
 
-export const SKIP_LABEL = new Set([
-  'AD','AE','AG','AM','AW','AZ','BB','BH','BN','BT','BW',
-  'CF','CG','CI','CM','CY','DJ','DM','DO',
-  'FJ','FM','GA','GD','GE','GM','GN','GQ','GW',
-  'HR','HT','IS','JM','JO','KG','KH','KM','KW',
-  'LA','LB','LC','LS','LU','LV','MD','ME','MK','MM','MV','MU',
-  'MO',
-  'NA','NE','PA','PG','QA',
-  'RS','RW','SB','SC','SI','SL','SM','SN','SO','SR',
-  'SS','ST','SV','SZ','TG','TJ','TL','TM','TT',
-  'UG','UY','VU','WS','ZW',
-])
-
-export { normalizeName } from './lib/countryNames.js'

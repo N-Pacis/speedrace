@@ -1,26 +1,34 @@
 import { useState, useEffect, useRef } from 'react'
-import { CAR_COLORS } from '../lib/raceUtils'
 import Flag from '../components/Flag'
 import '../race.css'
 
-const CAR_W = 96
-const CAR_H = 48
+const CAR_W     = 96
+const CAR_H     = 48
+const CAR_COLOR = '#1D4ED8'
+const CAR_DARK  = '#0017a1'
 
-function Car({ color, code }) {
-  const n  = parseInt(color.slice(1), 16)
-  const dk = `rgb(${Math.max(0,((n>>16)&255)-55)},${Math.max(0,((n>>8)&255)-55)},${Math.max(0,(n&255)-55)})`
+function Car({ code }) {
   return (
     <svg width={CAR_W} height={CAR_H} viewBox={`0 0 ${CAR_W} ${CAR_H}`} aria-hidden
-      style={{ filter:`drop-shadow(0 2px 6px ${color}88) drop-shadow(0 1px 3px rgba(0,0,0,0.25))`, overflow:'visible' }}>
+      style={{ filter:'drop-shadow(0 2px 6px rgba(29,78,216,0.35)) drop-shadow(0 1px 3px rgba(0,0,0,0.25))', overflow:'visible' }}>
+      <defs>
+        <clipPath id={`fc-${code}`}>
+          <path d="M30,12 L65,10 L73,15 L73,33 L65,38 L30,36 L24,31 L24,17 Z"/>
+        </clipPath>
+      </defs>
       <ellipse cx="46" cy="47" rx="36" ry="4" fill="rgba(0,0,0,0.38)"/>
-      <rect x="60" y="1"  width="24" height="11" rx="5.5" fill={dk}/>
-      <rect x="60" y="36" width="24" height="11" rx="5.5" fill={dk}/>
-      <rect x="12" y="3"  width="20" height="10" rx="5"   fill={dk}/>
-      <rect x="12" y="35" width="20" height="10" rx="5"   fill={dk}/>
-      <path d="M10,16 L8,24 L10,32 L28,39 L68,41 L82,34 L91,27 L93,24 L91,21 L82,14 L68,7 L28,9 Z" fill={color}/>
+      <rect x="60" y="1"  width="24" height="11" rx="5.5" fill={CAR_DARK}/>
+      <rect x="60" y="36" width="24" height="11" rx="5.5" fill={CAR_DARK}/>
+      <rect x="12" y="3"  width="20" height="10" rx="5"   fill={CAR_DARK}/>
+      <rect x="12" y="35" width="20" height="10" rx="5"   fill={CAR_DARK}/>
+      <path d="M10,16 L8,24 L10,32 L28,39 L68,41 L82,34 L91,27 L93,24 L91,21 L82,14 L68,7 L28,9 Z" fill={CAR_COLOR}/>
       <path d="M28,9 L68,7 L82,14 L68,11 L28,13 Z" fill="rgba(255,255,255,0.18)"/>
-      <path d="M30,12 L65,10 L73,15 L73,33 L65,38 L30,36 L24,31 L24,17 Z" fill={dk}/>
-      <path d="M30,12 L65,10 L73,15 L65,13 L30,15 Z" fill="rgba(255,255,255,0.1)"/>
+      <path d="M30,12 L65,10 L73,15 L73,33 L65,38 L30,36 L24,31 L24,17 Z" fill={CAR_DARK}/>
+      <image href={`https://flagcdn.com/w40/${code.toLowerCase()}.png`}
+        x="24" y="10" width="49" height="28"
+        clipPath={`url(#fc-${code})`}
+        preserveAspectRatio="xMidYMid slice"
+        opacity="0.9"/>
       <path d="M65,10 L73,15 L73,33 L65,38 Z" fill="rgba(130,220,255,0.82)"/>
       <path d="M65,10 L73,15 L70,17 L65,12 Z" fill="rgba(255,255,255,0.4)"/>
       <path d="M30,12 L24,17 L24,31 L30,36 Z" fill="rgba(130,220,255,0.32)"/>
@@ -41,11 +49,6 @@ function Car({ color, code }) {
       <ellipse cx="22" cy="7"  rx="4"  ry="2"   fill="#374151"/>
       <ellipse cx="22" cy="41" rx="8"  ry="4.5" fill="#111827"/>
       <ellipse cx="22" cy="41" rx="4"  ry="2"   fill="#374151"/>
-      <text x="47" y="25" textAnchor="middle" dominantBaseline="middle"
-        fontSize="11" fontWeight="bold" fill="rgba(255,255,255,0.9)"
-        style={{userSelect:'none',fontFamily:'monospace,sans-serif',letterSpacing:'0.04em'}}>
-        {code}
-      </text>
     </svg>
   )
 }
@@ -130,7 +133,6 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
     }
 
     return () => { clearInterval(cdId); cancelAnimationFrame(rafRef.current) }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [raceKey])
 
   const winner   = finishOrder.length > 0 ? countries[finishOrder[0]] : null
@@ -174,7 +176,6 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
         <span className="finish-label">FINISH</span>
 
         {countries.map((c, i) => {
-          const color    = CAR_COLORS[i]
           const finPos   = finishOrder.indexOf(i)
           const finished = finPos >= 0
           return (
@@ -183,29 +184,27 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
                 <Flag code={c.abbreviation} size={26} />
                 <div className="lane-info">
                   <span className="lane-name">{c.country}</span>
-                  <span className="lane-spd" style={{ color }}>{c.downloadMbps?.toFixed(0)} Mbps</span>
+                  <span className="lane-spd">{c.downloadMbps?.toFixed(0)} Mbps</span>
                 </div>
               </div>
               <div className="lane-road">
                 <div className={`road-stripe${isRacing && !finished ? ' stripe-moving' : ''}`}/>
-                <div className="speed-trail" ref={el => trailRefs.current[i] = el}
-                  />
+                <div className="speed-trail" ref={el => trailRefs.current[i] = el}/>
                 <div className="car-pos" ref={el => carRefs.current[i] = el}
                   style={{ top:`calc(50% - ${CAR_H / 2}px)` }}>
                   {isRacing && !finished && (
                     <div className="sparks">
-                      <span className="sk" style={{ '--c': color }}/>
-                      <span className="sk" style={{ '--c': color, animationDelay: '.13s' }}/>
-                      <span className="sk" style={{ '--c': color, animationDelay: '.26s' }}/>
+                      <span className="sk"/>
+                      <span className="sk" style={{ animationDelay: '.13s' }}/>
+                      <span className="sk" style={{ animationDelay: '.26s' }}/>
                     </div>
                   )}
-                  <Car color={color} code={c.abbreviation}/>
+                  <Car code={c.abbreviation}/>
                 </div>
               </div>
               <div className="lane-stat">
                 {finished && <RankBadge pos={finPos}/>}
-                <span className="lane-pct" ref={el => pctRefs.current[i] = el}
-                  style={finished ? { color } : {}}>0%</span>
+                <span className="lane-pct" ref={el => pctRefs.current[i] = el}>0%</span>
               </div>
             </div>
           )
@@ -230,7 +229,7 @@ export default function RacePage({ countries = [], mb = 100, onEdit, onBack }) {
 
           <div className="podium">
             {finishOrder.map((ci, rank) => (
-              <div key={ci} className="podium-row" style={{ '--rc': CAR_COLORS[ci] }}>
+              <div key={ci} className="podium-row">
                 <span className="p-rank">{rank + 1}</span>
                 <Flag code={countries[ci].abbreviation} size={22} />
                 <span className="p-name">{countries[ci].country}</span>

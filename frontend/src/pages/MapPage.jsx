@@ -9,7 +9,6 @@ export default function MapPage() {
 
   return (
     <div className="page-stack map-page-shell">
-      {/* remove map-immersive (overflow:hidden) when racing so content isn't clipped */}
       <div className={`surface-card map-frame${racing ? '' : ' map-immersive'}`}>
         {racing ? (
           <RacePage

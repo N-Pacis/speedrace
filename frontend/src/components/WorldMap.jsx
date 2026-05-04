@@ -55,7 +55,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
     }).catch(() => setStatus('error'))
   }, [])
 
-  /* keep local input string in sync when parent changes mb */
   useEffect(() => { setMbInput(String(fileSizeMB)) }, [fileSizeMB])
 
   const fills = useMemo(() => {
@@ -103,7 +102,7 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
       onFileSizeChange?.(v)
       setMbInput(String(v))
     } else {
-      setMbInput(String(fileSizeMB)) /* revert on bad input */
+      setMbInput(String(fileSizeMB))
     }
   }
 
@@ -114,7 +113,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
   return (
     <div className="map-with-sidebar">
 
-      {/* ── Map viewport ── */}
       <div
         className="map-viewport"
         onMouseMove={e => { if (tooltip) setTooltip(t => ({ ...t, x: e.clientX, y: e.clientY })) }}
@@ -191,7 +189,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
           </ZoomableGroup>
         </ComposableMap>
 
-        {/* Speed legend – bottom left only */}
         <div className="map-overlay-bottom" style={{ justifyContent: 'flex-start' }}>
           <div className="map-legend-group">
             <span className="eyebrow">Download speed</span>
@@ -212,7 +209,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
         </div>
       </div>
 
-      {/* ── Sidebar ── */}
       <aside className="map-sidebar">
         <div className="eyebrow" style={{ marginBottom: '0.1rem' }}>Race Sim</div>
         <p className="map-sidebar-hint">
@@ -223,7 +219,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
               : `${selected.length} of ${MAX_RACERS} selected`}
         </p>
 
-        {/* Racer slots */}
         <div className="map-sidebar-racers">
           {Array.from({ length: MAX_RACERS }).map((_, i) => {
             const c = selected[i]
@@ -246,7 +241,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
           })}
         </div>
 
-        {/* File size */}
         <div className="map-sidebar-divider" />
         <div className="field-stack">
           <label className="field-label">File Size</label>
@@ -283,7 +277,6 @@ export default function WorldMap({ selected = [], onSelectedChange, onStartRace,
         </button>
       </aside>
 
-      {/* Tooltip */}
       {tooltip && (
         <div className="fixed z-50 pointer-events-none px-3 py-2 text-sm whitespace-nowrap shadow-lg"
           style={{ position: 'fixed', left: tooltip.x + 14, top: tooltip.y - 10, zIndex: 50,

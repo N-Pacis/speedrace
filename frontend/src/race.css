@@ -92,7 +92,6 @@
 }
 
 @keyframes ring-pulse {
-
   0%,
   100% {
     transform: scale(1);
@@ -167,7 +166,13 @@
   bottom: 0;
   right: 70px;
   width: 5px;
-  background: repeating-linear-gradient(180deg, #434655 0px, #434655 7px, #fff 7px, #fff 14px);
+  background: repeating-linear-gradient(
+    180deg,
+    #434655 0px,
+    #434655 7px,
+    #fff 7px,
+    #fff 14px
+  );
   z-index: 5;
   pointer-events: none;
 }
@@ -251,8 +256,13 @@
   right: 0;
   height: 2px;
   transform: translateY(-50%);
-  background: repeating-linear-gradient(90deg, rgba(67, 70, 85, 0.18) 0px, rgba(67, 70, 85, 0.18) 16px,
-      transparent 16px, transparent 40px);
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(67, 70, 85, 0.18) 0px,
+    rgba(67, 70, 85, 0.18) 16px,
+    transparent 16px,
+    transparent 40px
+  );
   pointer-events: none;
 }
 

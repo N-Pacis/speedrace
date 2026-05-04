@@ -5,7 +5,7 @@
 
 .app-shell {
   min-height: 100vh;
-  background: #F7F9FB;
+  background: #f7f9fb;
   color: var(--color-text);
 }
 
@@ -46,7 +46,9 @@
   line-height: 1;
   padding-bottom: 0.75rem;
   text-transform: uppercase;
-  transition: color 160ms ease, border-color 160ms ease;
+  transition:
+    color 160ms ease,
+    border-color 160ms ease;
 }
 
 .site-link:hover {
@@ -216,7 +218,7 @@
 .app-select {
   width: 100%;
   border: 1px solid var(--color-border);
-  background: #F7F9FB;
+  background: #f7f9fb;
   color: var(--color-text);
   padding: 0.95rem 1rem;
   font-size: 1rem;
@@ -243,7 +245,9 @@
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  transition: background-color 160ms ease, opacity 160ms ease;
+  transition:
+    background-color 160ms ease,
+    opacity 160ms ease;
 }
 
 .app-button:hover {
@@ -424,7 +428,9 @@
   flex-shrink: 0;
   transition: opacity 0.12s;
 }
-.map-sidebar-racer-x:hover { opacity: 1; }
+.map-sidebar-racer-x:hover {
+  opacity: 1;
+}
 
 .map-sidebar-slot {
   display: flex;
@@ -483,7 +489,7 @@
   overflow: hidden;
   background:
     radial-gradient(circle at top, rgba(29, 78, 216, 0.08), transparent 48%),
-    #F7F9FB;
+    #f7f9fb;
 }
 
 .map-svg {
@@ -532,7 +538,7 @@
 }
 
 .map-control-button:hover {
-  background: #F7F9FB;
+  background: #f7f9fb;
 }
 
 .map-overlay-bottom {
@@ -622,14 +628,18 @@
   transition: background 0.12s;
   line-height: 1;
 }
-.map-picker-chip:hover { background: #1639a8; }
+.map-picker-chip:hover {
+  background: #1639a8;
+}
 .map-picker-chip-x {
   opacity: 0.65;
   font-size: 0.9rem;
   line-height: 1;
   margin-left: 0.1rem;
 }
-.map-picker-chip:hover .map-picker-chip-x { opacity: 1; }
+.map-picker-chip:hover .map-picker-chip-x {
+  opacity: 1;
+}
 
 .map-picker-empty {
   font-size: 0.75rem;
@@ -676,13 +686,15 @@
 }
 .map-picker-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 14px; height: 14px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--color-brand);
   cursor: pointer;
 }
 .map-picker-slider::-moz-range-thumb {
-  width: 14px; height: 14px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   background: var(--color-brand);
   border: none;
@@ -707,8 +719,13 @@
   cursor: pointer;
   transition: background 0.14s;
 }
-.map-race-button:hover:not(:disabled) { background: #1639a8; }
-.map-race-button:disabled { cursor: not-allowed; opacity: 0.42; }
+.map-race-button:hover:not(:disabled) {
+  background: #1639a8;
+}
+.map-race-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
 
 .status-text {
   font-size: 0.94rem;

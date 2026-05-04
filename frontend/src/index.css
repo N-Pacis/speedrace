@@ -2,25 +2,25 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand:         #1D4ED8;
-  --color-brand-dark:    #1D4ED8;
-  --color-brand-light:   rgba(29, 78, 216, 0.12);
-  --color-no-data:       rgba(67, 70, 85, 0.25);
-  --color-surface:       #F7F9FB;
-  --color-surface-muted: #F7F9FB;
-  --color-border:        rgba(67, 70, 85, 0.15);
-  --color-text:          #434655;
-  --color-text-muted:    #434655;
-  --color-text-soft:     rgba(67, 70, 85, 0.6);
-  --color-success:       #1D4ED8;
-  --color-error:         #434655;
-  --color-warning:       #434655;
+  --color-brand: #1d4ed8;
+  --color-brand-dark: #1d4ed8;
+  --color-brand-light: rgba(29, 78, 216, 0.12);
+  --color-no-data: rgba(67, 70, 85, 0.25);
+  --color-surface: #f7f9fb;
+  --color-surface-muted: #f7f9fb;
+  --color-border: rgba(67, 70, 85, 0.15);
+  --color-text: #434655;
+  --color-text-muted: #434655;
+  --color-text-soft: rgba(67, 70, 85, 0.6);
+  --color-success: #1d4ed8;
+  --color-error: #434655;
+  --color-warning: #434655;
 
   --font-sans: "Space Grotesk", Arial, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 :root {
-  background: #F7F9FB;
+  background: #f7f9fb;
   color: var(--color-text);
   font-family: var(--font-sans);
 }
@@ -32,7 +32,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #F7F9FB;
+  background: #f7f9fb;
   color: var(--color-text);
   font-family: var(--font-sans);
   font-feature-settings: "ss01" 1;

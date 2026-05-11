@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom";
 import SpeedTest from "./pages/SpeedTest";
 import MapPage from "./pages/MapPage";
+import AboutPage from "./pages/AboutPage";
 import "./App.css";
 
 const NAV_LINKS = [
   { to: "/", label: "World Map", end: true },
   { to: "/speed-test", label: "Speed Test", end: false },
+  { to: "/about", label: "About", end: false },
 ];
 
 export default function App() {
@@ -33,6 +35,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<MapPage />} />
             <Route path="/speed-test" element={<SpeedTest />} />
+            <Route path="/about" element={<AboutPage />} />
           </Routes>
         </main>
       </div>

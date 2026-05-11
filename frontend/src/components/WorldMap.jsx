@@ -47,6 +47,67 @@ function clamp(v, lo, hi) {
   return Math.max(lo, Math.min(hi, v));
 }
 
+const FILE_SIZE_HINTS = [
+  { mb: 5,     label: "MP3 song",               desc: "~5 MB" },
+  { mb: 30,    label: "Phone photos (×5)",       desc: "~30 MB" },
+  { mb: 80,    label: "TikTok / YouTube Short",  desc: "~80 MB" },
+  { mb: 300,   label: "45-min Netflix episode",  desc: "~300 MB" },
+  { mb: 800,   label: "Full HD movie",           desc: "~800 MB" },
+  { mb: 5000,  label: "4K movie (Netflix)",      desc: "~5 GB" },
+  { mb: 50000, label: "GTA V / Call of Duty",    desc: "~50 GB" },
+  { mb: 92160, label: "Full OS install / backup",desc: "~90 GB" },
+];
+
+function FileSizeHint({ mb, onSelect }) {
+  return (
+    <div
+      style={{
+        marginTop: "0.5rem",
+        borderRadius: "0.45rem",
+        border: "1px solid rgba(29,78,216,0.12)",
+        overflow: "hidden",
+      }}
+    >
+      <p style={{ margin: 0, padding: "0.35rem 0.6rem", fontSize: "0.65rem", fontWeight: 600, letterSpacing: "0.04em", textTransform: "uppercase", color: "var(--color-text-muted)", background: "rgba(29,78,216,0.05)", borderBottom: "1px solid rgba(29,78,216,0.08)" }}>
+        Common file sizes
+      </p>
+      {FILE_SIZE_HINTS.map((h) => {
+        const active = mb === h.mb;
+        return (
+          <button
+            key={h.mb}
+            type="button"
+            onClick={() => onSelect?.(h.mb)}
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              padding: "0.3rem 0.6rem",
+              background: active ? "rgba(29,78,216,0.1)" : "transparent",
+              border: "none",
+              borderBottom: "1px solid rgba(29,78,216,0.06)",
+              cursor: "pointer",
+              textAlign: "left",
+              gap: "0.5rem",
+            }}
+          >
+            <span style={{ fontSize: "0.7rem", color: active ? "var(--color-brand, #1D4ED8)" : "var(--color-text)", fontWeight: active ? 600 : 400, flex: 1 }}>
+              {h.label}
+            </span>
+            <span style={{ fontSize: "0.68rem", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>
+              {h.desc}
+            </span>
+            {active && (
+              <span style={{ fontSize: "0.65rem", color: "var(--color-brand, #1D4ED8)", fontWeight: 700 }}>✓</span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
+
 export default function WorldMap({
   selected = [],
   onSelectedChange,
@@ -395,6 +456,7 @@ export default function WorldMap({
               Approx {slowest.toFixed(1)}s race
             </p>
           )}
+          <FileSizeHint mb={fileSizeMB} onSelect={(v) => { onFileSizeChange?.(v); setMbInput(String(v)); }} />
         </div>
 
         <div style={{ flex: 1 }} />

@@ -28,7 +28,7 @@ router.post('/', async (req, res) => {
       return res.status(404).json({ error: `Country '${code}' not found. Run seed.js first.` });
     }
 
-    const avgDownload = parseFloat(((existing.downloadMbps + downloadMbps) / 2).toFixed(2));
+    const avgDownload = parseFloat((existing.downloadMbps * 0.9 + downloadMbps * 0.1).toFixed(2));
     const metaByCode = await getCountryMetaByAbbreviation(code);
     const metaByName = country ? await getCountryMetaByName(country) : null;
     const canonicalCountry = existing.country || metaByCode?.ooklaName || metaByName?.ooklaName || country;

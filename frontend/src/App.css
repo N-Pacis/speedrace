@@ -349,7 +349,6 @@
   overflow: hidden;
 }
 
-/* map + sidebar flex layout */
 .map-with-sidebar {
   display: flex;
   min-height: 78vh;
@@ -361,7 +360,6 @@
   min-height: unset;
 }
 
-/* ── Race Sidebar ── */
 .map-sidebar {
   width: 260px;
   flex-shrink: 0;
@@ -820,5 +818,93 @@
 
   .hero-stat-unit {
     padding-bottom: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .site-header {
+    padding: 1rem 1.1rem;
+    gap: 0.75rem;
+  }
+
+  .site-nav {
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .site-link {
+    font-size: 0.8rem;
+  }
+
+  .page-shell {
+    width: min(100% - 1rem, 1120px);
+    padding: 1rem 0 3rem;
+  }
+
+  .map-with-sidebar {
+    flex-direction: column;
+  }
+
+  .map-sidebar {
+    width: 100%;
+    border-left: 0;
+    border-top: 1px solid var(--color-border);
+    padding: 1rem;
+  }
+
+  .map-sidebar-racers {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.35rem;
+  }
+
+  .map-viewport {
+    min-height: 52vw;
+    min-height: min(52vw, 55vh);
+  }
+
+  .map-stage-copy .page-copy {
+    display: none;
+  }
+
+  .map-stage-title {
+    font-size: 1rem;
+  }
+
+  .map-overlay-bottom {
+    bottom: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+
+  .map-legend-group {
+    padding: 0.5rem 0.65rem;
+    gap: 0.5rem;
+  }
+
+  .map-legend-group .eyebrow {
+    font-size: 0.62rem;
+  }
+
+  .map-control-cluster {
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+
+  .map-control-button {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .hero-stat-value {
+    font-size: clamp(4rem, 22vw, 9rem);
+  }
+
+  .surface-card.info-panel > * {
+    padding: 1.25rem 1rem;
+  }
+
+  .metric-value {
+    font-size: 1.7rem;
   }
 }

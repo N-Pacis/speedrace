@@ -165,7 +165,7 @@ export default function SpeedTest() {
           : 0;
 
   return (
-    <div className="page-stack">
+    <div className="page-shell page-stack">
       <section className="page-hero">
         <h1 className="page-title">Test Your Internet Speed</h1>
         <p className="page-copy">

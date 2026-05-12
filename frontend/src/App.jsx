@@ -31,7 +31,7 @@ export default function App() {
             ))}
           </nav>
         </header>
-        <main className="page-shell">
+        <main>
           <Routes>
             <Route path="/" element={<MapPage />} />
             <Route path="/speed-test" element={<SpeedTest />} />

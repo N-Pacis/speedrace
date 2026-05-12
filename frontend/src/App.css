@@ -863,6 +863,20 @@
     min-height: min(52vw, 55vh);
   }
 
+  .map-immersive {
+    overflow: visible;
+  }
+
+  .map-stage-copy {
+    position: static;
+    width: auto;
+    background: transparent;
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+    padding: 0.85rem 1rem 0.5rem;
+  }
+
   .map-stage-copy .page-copy {
     display: none;
   }

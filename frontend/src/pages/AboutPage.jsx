@@ -25,14 +25,14 @@ export default function AboutPage() {
           countries never agreed to enter on equal footing. 
         </p>
         <p className="page-copy" style={{ marginTop: "1rem" }}>
-          Technically, theproject is a React and Vite single-page application (SPA). The world map is
+          Technically, the project is a React and Vite single-page application (SPA). The world map is
           rendered as an SVG, with each country's fill color determined by Ookla Speedtest Global Index median download data mapped to a blue-intensity scale. A user can then select up to five countries and hand them off to
           a race engine that calculates how long each would take to transfer a
           chosen file size: time&nbsp;=&nbsp;(size&nbsp;×&nbsp;8)&nbsp;÷&nbsp;speed and animates their progress bars in real time using
           <code style={{ fontFamily: "inherit", fontSize: "inherit" }}> requestAnimationFrame</code>.
         </p>
         <p className="page-copy" style={{ marginTop: "1rem" }}>
-          Furthemore, the Speed Test page probes Cloudflare's public
+          Furthermore, the Speed Test page probes Cloudflare's public
           measurement API across multiple payload sizes to compute the actual
           download, upload, and ping, then submits the result to a Node.js
           backend and then the reading feeds back into the country averages over

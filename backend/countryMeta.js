@@ -7,7 +7,9 @@ async function loadCountryMeta() {
   if (!metaPromise) {
     metaPromise = (async () => {
       const moduleUrl = pathToFileURL(path.resolve(__dirname, '../frontend/src/constants.js')).href;
-      const { COUNTRY_META, normalizeName } = await import(moduleUrl);
+      const { COUNTRY_META } = await import(moduleUrl);
+      const namesUrl = pathToFileURL(path.resolve(__dirname, '../frontend/src/lib/countryNames.js')).href;
+      const { normalizeName } = await import(namesUrl);
       const byName = new Map();
       const byAbbreviation = new Map();
 

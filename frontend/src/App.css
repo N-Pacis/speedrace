@@ -859,8 +859,8 @@
   }
 
   .map-viewport {
-    min-height: 52vw;
-    min-height: min(52vw, 55vh);
+    min-height: 72vw;
+    min-height: min(72vw, 70vh);
   }
 
   .map-immersive {
